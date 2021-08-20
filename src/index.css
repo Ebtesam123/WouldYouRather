@@ -1,0 +1,23 @@
+html,
+body {
+  font-size: 16px;
+  background-image: url("https://thumbs.dreamstime.com/b/art-spring-flowers-background-frame-52852938.jpg");
+  background-size: cover;
+}
+
+code {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+h2 {
+  text-align: center;
+}
+.Result {
+  font-size: large;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.tiny {
+  font-size: small;
+  font-weight: bold;
+  text-align: right;
+}
