@@ -18,7 +18,7 @@ class Navegation extends React.Component {
   };
 
   render() {
-    const { authUser, users } = this.props;
+    const { LoggedUser, users } = this.props;
 
     return (
       <Container>
@@ -38,8 +38,8 @@ class Navegation extends React.Component {
           <Menu.Menu position="right">
             <Menu.Item>
               WELCOME,&nbsp;&nbsp;
-              <Image src={users[authUser].avatarURL} avatar />
-              <Dropdown item text={users[authUser].name}>
+              <Image src={users[LoggedUser].avatarURL} avatar />
+              <Dropdown item text={users[LoggedUser].name}>
                 <Dropdown.Menu>
                   <Dropdown.Item>
                     <Button
@@ -63,9 +63,9 @@ class Navegation extends React.Component {
   }
 }
 
-function mapStateToProps({ users, authUser }) {
+function mapStateToProps({ users, LoggedUser }) {
   return {
-    authUser,
+    LoggedUser,
     users,
   };
 }
