@@ -1,32 +1,31 @@
 import {
-  RECEIVE_USERS,
+  GET_USERS,
   ADD_ANSWER_TO_USER,
-  ADD_QUESTION_TO_USER,
+  QUESTION_ADDITION_TO_USER,
 } from "../actions/actionTypes";
 
 export default function users(state = {}, action) {
   switch (action.type) {
-    case RECEIVE_USERS:
+    case GET_USERS:
       return {
         ...state,
         ...action.users,
       };
     case ADD_ANSWER_TO_USER:
-      const { authUser, qid, answer } = action;
+      const { LoggedUser, Question_ID, answer } = action;
 
       return {
         ...state,
-        [authUser]: {
-          ...state[authUser],
+        [LoggedUser]: {
+          ...state[LoggedUser],
           answers: {
-            ...state[authUser].answers,
-            [qid]: answer,
+            ...state[LoggedUser].answers,
+            [Question_ID]: answer,
           },
         },
       };
-    case ADD_QUESTION_TO_USER:
+    case QUESTION_ADDITION_TO_USER:
       const { id, author } = action;
-
       return {
         ...state,
         [author]: {
