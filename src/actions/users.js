@@ -2,41 +2,40 @@ import { saveQuestionAnswer } from "../utils/Local_Api";
 import { addAnswerToQuestion } from "../actions/questions";
 
 import {
-  RECEIVE_USERS,
+  GET_USERS,
   ADD_ANSWER_TO_USER,
-  ADD_QUESTION_TO_USER,
+  QUESTION_ADDITION_TO_USER,
 } from "./actionTypes";
 
-export function receiveUsers(users) {
+export function GetUsers(users) {
   return {
-    type: RECEIVE_USERS,
+    type: GET_USERS,
     users,
   };
 }
 
-function addAnswerToUser(authUser, qid, answer) {
+function addAnswerToUser(LoggedUser, Question_ID, answer) {
   return {
     type: ADD_ANSWER_TO_USER,
-    authUser,
-    qid,
+    LoggedUser,
+    Question_ID,
     answer,
   };
 }
 
-export function handleSaveQuestionAnswer(authUser, qid, answer) {
+export function handleSaveQuestionAnswer(LoggedUser, Question_ID, answer) {
   return (dispatch) => {
-    dispatch(addAnswerToUser(authUser, qid, answer));
-    dispatch(addAnswerToQuestion(authUser, qid, answer));
+    dispatch(addAnswerToUser(LoggedUser, Question_ID, answer));
+    dispatch(addAnswerToQuestion(LoggedUser, Question_ID, answer));
 
-    return saveQuestionAnswer(authUser, qid, answer).catch((e) => {
-      console.warn("Error in handleSaveQuestionAnswer:", e);
-    });
+    return saveQuestionAnswer(LoggedUser, Question_ID, answer);
   };
 }
 
 export function addQuestionToUser({ id, author }) {
+  //console.log("Question added to user in actions");
   return {
-    type: ADD_QUESTION_TO_USER,
+    type: QUESTION_ADDITION_TO_USER,
     id,
     author,
   };
