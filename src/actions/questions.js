@@ -1,23 +1,23 @@
 import { saveQuestion } from "../utils/Local_Api";
 import { addQuestionToUser } from "../actions/users";
 import {
-  RECEIVE_QUESTIONS,
+  GET_QUESTIONS,
   ADD_ANSWER_TO_QUESTION,
   ADD_QUESTION,
 } from "./actionTypes";
 
-export function receiveQuestions(questions) {
+export function GetQuestions(questions) {
   return {
-    type: RECEIVE_QUESTIONS,
+    type: GET_QUESTIONS,
     questions,
   };
 }
 
-export function addAnswerToQuestion(authUser, qid, answer) {
+export function addAnswerToQuestion(LoggedUser, Question_ID, answer) {
   return {
     type: ADD_ANSWER_TO_QUESTION,
-    authUser,
-    qid,
+    LoggedUser,
+    Question_ID,
     answer,
   };
 }
