@@ -65,8 +65,8 @@ export class Result extends React.Component {
   }
 }
 
-function mapStateToProps({ users, authUser }) {
-  const user = users[authUser];
+function mapStateToProps({ users, LoggedUser }) {
+  const user = users[LoggedUser];
   return {
     user,
   };
