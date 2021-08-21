@@ -1,21 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { Segment, Header, Grid, Image } from "semantic-ui-react";
 import Question from "./Question";
 import Result from "./Result";
 import PollAlternate from "./PollAlternate";
-import { pollTypes } from "../actions/actionTypes";
+import { PollContentType } from "../actions/actionTypes";
 
 const PollContent = (props) => {
-  const { Type, question, unanswered } = props;
-  switch (Type) {
-    case pollTypes.POLL_TEASER:
-      return <PollAlternate question={question} unanswered={unanswered} />;
-    case pollTypes.POLL_QUESTION:
-      return <Question question={question} />;
-    case pollTypes.POLL_RESULT:
-      return <Result question={question} />;
+  const { ContentType, InvolvedQue, unanswered } = props;
+  switch (ContentType) {
+    case PollContentType.ALTERNATE:
+      return <PollAlternate question={InvolvedQue} unanswered={unanswered} />;
+    case PollContentType.QUESTION:
+      return <Question question={InvolvedQue} />;
+    case PollContentType.RESULT:
+      return <Result question={InvolvedQue} />;
     default:
       return;
   }
@@ -23,11 +22,7 @@ const PollContent = (props) => {
 
 export class UsrCard extends React.Component {
   render() {
-    const { author, question, pollType, bad, NotAnswerd = null } = this.props;
-
-    if (bad === true) {
-      return <Redirect to="/questions/bad_id" />;
-    }
+    const { author, Que, PType, NotAnswerd = null } = this.props;
 
     return (
       <Segment.Group size="massive">
@@ -39,8 +34,8 @@ export class UsrCard extends React.Component {
         <Grid>
           <Grid.Column>
             <PollContent
-              Type={pollType}
-              question={question}
+              ContentType={PType}
+              InvolvedQue={Que}
               unanswered={NotAnswerd}
             />
           </Grid.Column>
@@ -51,39 +46,31 @@ export class UsrCard extends React.Component {
 }
 
 function mapStateToProps(
-  { users, questions, authUser },
-  { match, question_id }
+  { users, questions, LoggedUser },
+  { question_id, match }
 ) {
-  let question,
-    author,
-    pollType,
-    badPath = false;
+  let Qid, PType;
   if (question_id !== undefined) {
-    question = questions[question_id];
-    author = users[question.author];
-    pollType = pollTypes.POLL_TEASER;
+    Qid = question_id;
+    PType = PollContentType.ALTERNATE;
   } else {
-    const { question_id } = match.params;
-    question = questions[question_id];
-    const user = users[authUser];
+    Qid = match.params.question_id;
 
-    if (question === undefined) {
-      badPath = true;
-    } else {
-      author = users[question.author];
-      pollType = pollTypes.POLL_QUESTION;
-      if (Object.keys(user.answers).includes(question.id)) {
-        pollType = pollTypes.POLL_RESULT;
-      }
+    //console.log("CASEEEEE", Qid);
+    PType = PollContentType.QUESTION;
+
+    if (Object.keys(users[LoggedUser].answers).includes(Qid)) {
+      PType = PollContentType.RESULT;
     }
   }
-
+  const Que = questions[Qid];
+  const author = users[Que.author];
   return {
-    badPath,
-    question,
+    Que,
     author,
-    pollType,
+    PType,
   };
 }
 
 export default connect(mapStateToProps)(UsrCard);
+//mapStateToProps data that UsrCard Needs, passed to it as props
