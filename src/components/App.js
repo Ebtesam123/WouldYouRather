@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "semantic-ui-react";
-import { handleInitialData } from "../actions/shared";
+import { GetData } from "../actions/DispatchQuestionsUsers";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoginPage from "./Login";
@@ -13,14 +13,14 @@ import AddPoll from "./AddPoll";
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.handleInitialData();
+    this.props.GetData();
   }
   render() {
-    const { authUser } = this.props;
+    const { LoggedUser } = this.props;
     return (
       <Router>
         <div>
-          {authUser === null ? (
+          {LoggedUser === null ? (
             <Route
               render={() => (
                 <ContentGrid>
@@ -63,10 +63,10 @@ const ContentGrid = ({ children }) => (
   </Grid>
 );
 
-function mapStateToProps({ authUser }) {
+function mapStateToProps({ LoggedUser }) {
   return {
-    authUser,
+    LoggedUser,
   };
 }
 
-export default connect(mapStateToProps, { handleInitialData })(App);
+export default connect(mapStateToProps, { GetData })(App); // mapStateToProps is the data that the compoenent needs
