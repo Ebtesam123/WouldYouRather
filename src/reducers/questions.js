@@ -1,26 +1,26 @@
 import {
-  RECEIVE_QUESTIONS,
+  GET_QUESTIONS,
   ADD_ANSWER_TO_QUESTION,
   ADD_QUESTION,
 } from "../actions/actionTypes";
 
 export default function questions(state = {}, action) {
   switch (action.type) {
-    case RECEIVE_QUESTIONS:
+    case GET_QUESTIONS:
       return {
         ...state,
         ...action.questions,
       };
     case ADD_ANSWER_TO_QUESTION:
-      const { authUser, qid, answer } = action;
+      const { LoggedUser, Question_ID, answer } = action;
 
       return {
         ...state,
-        [qid]: {
-          ...state[qid],
+        [Question_ID]: {
+          ...state[Question_ID],
           [answer]: {
-            ...state[qid][answer],
-            votes: state[qid][answer].votes.concat(authUser),
+            ...state[Question_ID][answer],
+            votes: state[Question_ID][answer].votes.concat(LoggedUser),
           },
         },
       };
