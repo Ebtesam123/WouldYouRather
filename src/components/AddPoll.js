@@ -24,12 +24,12 @@ export class AddPoll extends React.Component {
   };
   SubmitQue = (event) => {
     event.preventDefault();
-    const { authUser, handleSaveQuestion } = this.props;
+    const { LoggedUser, handleSaveQuestion } = this.props;
     const { option1, option2 } = this.state;
 
     new Promise((res, r) => {
       this.setState({ isLoading: true });
-      handleSaveQuestion(option1, option2, authUser);
+      handleSaveQuestion(option1, option2, LoggedUser);
       setTimeout(() => res("success"), 400);
     }).then(() => {
       this.setState({
@@ -98,9 +98,9 @@ export class AddPoll extends React.Component {
   }
 }
 
-function mapStateToProps({ authUser }) {
+function mapStateToProps({ LoggedUser }) {
   return {
-    authUser,
+    LoggedUser,
   };
 }
 
