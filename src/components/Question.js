@@ -5,23 +5,23 @@ import { handleSaveQuestionAnswer } from "../actions/users";
 
 export class Question extends React.Component {
   state = {
-    value: "",
+    Answervalue: "",
   };
 
-  handleChange = (e, { value }) => this.setState({ value });
+  handleChange = (e, { value }) => this.setState({ Answervalue: value });
 
-  SubmitFunc = (e) => {
-    e.preventDefault();
-    if (this.state.value !== "") {
-      const { authUser, question, handleSaveQuestionAnswer } = this.props;
-      handleSaveQuestionAnswer(authUser, question.id, this.state.value);
+  SubmitFunc = (event) => {
+    event.preventDefault();
+    if (this.state.Answervalue !== "") {
+      const { LoggedUser, question, handleSaveQuestionAnswer } = this.props;
+      handleSaveQuestionAnswer(LoggedUser, question.id, this.state.Answervalue);
     }
   };
 
   render() {
     const { question } = this.props;
     let lockdisable = false;
-    if (this.state.value === "") lockdisable = true;
+    if (this.state.Answervalue === "") lockdisable = true;
     return (
       <Segment inverted>
         <Header as="h4">Would you rather</Header>
@@ -31,7 +31,7 @@ export class Question extends React.Component {
               label={question.optionOne.text}
               name="radioGroup"
               value="optionOne"
-              checked={this.state.value === "optionOne"}
+              checked={this.state.Answervalue === "optionOne"}
               onChange={this.handleChange}
             />
             <br />
@@ -39,7 +39,7 @@ export class Question extends React.Component {
               label={question.optionTwo.text}
               name="radioGroup"
               value="optionTwo"
-              checked={this.state.value === "optionTwo"}
+              checked={this.state.Answervalue === "optionTwo"}
               onChange={this.handleChange}
             />
           </Form.Group>
@@ -55,9 +55,9 @@ export class Question extends React.Component {
   }
 }
 
-function mapStateToProps({ authUser }, { match }) {
+function mapStateToProps({ LoggedUser }) {
   return {
-    authUser,
+    LoggedUser,
   };
 }
 
